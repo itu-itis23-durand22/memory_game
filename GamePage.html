@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Page</title>
+    <style>
+        body { background-color: grey;
+        font-family: Arial, sans-serif;
+	font-size: 20pt ;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+
+        .card {
+            background-color: white;
+            padding: 50px;
+            margin: 10px;
+            text-align: center;
+            cursor: pointer;
+	    font-size: 40px;
+        }
+
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: lightblue;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            margin-top: 0px;
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">M</div>
+        <div class="card">E</div>
+        <div class="card">M</div>
+        <div class="card">O</div>
+        <div class="card">R</div>
+	<div class="card">Y</div>
+        <div class="card">G</div>
+        <div class="card">A</div>
+        <div class="card">M</div>
+        <div class="card">E</div>
+        <button id="startButton">Start</button>
+        <button id="restartButton" style="display: none;">Restart</button>
+        <h2 id="score">Score: 0</h2> <br> 
+	<h2 id="click"></h2>
+        
+    </div>
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const startButton = document.getElementById('startButton');
+        const scoreElement = document.getElementById('score');
+        const restartButton = document.getElementById('restartButton');
+        let cardOrder = ['M', 'E', 'M', 'O', 'R', 'Y', 'G' , 'A', 'M', 'E'];
+        let playerOrder = [];
+        let score = 0; 
+	let click = 0; 
+        
+
+        startButton.addEventListener('click', () => {
+		startButton.style.display = 'none'; 
+                getStart();
+                shuffleCards();
+                setTimeout(() => {
+                	flipCards();
+                	clickCards();
+			keepScore();
+                }, 3000);
+        });
+
+        restartButton.addEventListener('click', () => {
+    	restartButton.style.display = 'none'; 
+        location.reload(); 
+});
+
+	 		
+
+
+function keepScore() {
+    cards.forEach(card => {
+        card.addEventListener('click', () => { 
+            click+=1;
+		if ( click === 1 && cardOrder[0]===playerOrder[0] || click === 2 && cardOrder[1]===playerOrder[1] || click === 3 && cardOrder[2]===playerOrder[2] || click === 4 && cardOrder[3]===playerOrder[3] || click === 5 && cardOrder[4]===playerOrder[4] ||click === 6 && cardOrder[5]===playerOrder[5] || click === 7 && cardOrder[6]===playerOrder[6] || click === 8 && cardOrder[7]===playerOrder[7] || click === 9 && cardOrder[8]===playerOrder[8] || click === 10 && cardOrder[9]===playerOrder[9]  ) {
+ 			score += 20;
+                        scoreElement.textContent = `Score: ${score}`; }
+		if (score===200) {
+restartButton.style.display = 'block';
+document.getElementById('click').textContent = '. You have a great memory.';
+                
+            }
+	
+
+		
+
+		if ( click === 1 && cardOrder[0] !== playerOrder[0] || click === 2 && cardOrder[1]!==playerOrder[1] || click === 3 && cardOrder[2]!==playerOrder[2] || click === 4 && cardOrder[3]!==playerOrder[3] || click === 5 && cardOrder[4]!==playerOrder[4] ||click === 6 && cardOrder[5]!==playerOrder[5] || click === 7 && cardOrder[6]!==playerOrder[6] || click === 8 && cardOrder[7]!==playerOrder[7] || click === 9 && cardOrder[8]!==playerOrder[8] || click === 10 && cardOrder[9]!==playerOrder[9]   ) {
+                	alert('Your score: ' + score + '   Try to focus.');
+			score=0;
+                        location.reload();
+			
+		}
+		
+			
+		
+            
+		
+        });
+    });
+}
+
+
+                                                    
+function clickCards() {      
+	cards.forEach(card => {
+        	card.addEventListener('click', () => {
+                	if (card.textContent !== '') {
+                    		playerOrder.push(card.textContent);
+                    		card.textContent = '';
+               	 	}
+
+               
+		
+
+                       
+                
+            });
+        }); }
+
+        
+function shuffleCards() {
+            const shuffledCards = shuffleArray(cards);
+            shuffledCards.forEach((card, index) => {
+            	card.textContent = 'MEMORYGAME'.charAt(index);
+            });
+        }
+
+function getStart() {
+	cards.forEach(card => {
+	card.style.backgroundColor = 'white';
+                
+            });
+        }
+
+function flipCards() {
+        cards.forEach(card => {
+	card.style.backgroundColor = 'black';
+               
+            });
+        }
+
+function shuffleArray(array) {
+	const shuffledArray = [...array];
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+        	const j = Math.floor(Math.random() * (i + 1));
+                [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+            }
+            return shuffledArray;
+        }
+    </script>
+</body>
+</html>
